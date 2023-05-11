@@ -1,0 +1,9 @@
+vsim.wlf
+vsim_stacktrace.vstf
+transcript
+work
+sim/.dvt/*
+sim/.project
+sim/xsim/vivado*
+sim/xsim/uvml.*
+!sim/xsim/uvml.xpr

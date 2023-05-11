@@ -1,0 +1,6 @@
+"test/eg_test_pkg.sv"
+"top/tb_hs.sv"
+"top/tb_stream.sv"
+"top/tb_axis.sv"
+"top/tb_axilite.sv"
+"top/tb_axi.sv"
