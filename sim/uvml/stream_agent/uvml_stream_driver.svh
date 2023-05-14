@@ -33,7 +33,7 @@ class uvml_stream_driver#(parameter DATA_WIDTH, type T_PACKER = uvml_stream_pack
             bit last;
             sequencer.get_next_item(req);
             packer.reset_pack();
-            req.do_pack(packer); 
+            req.pack(packer); 
             do begin
                 packer.get_data(beat);
                 last = beat.data[DATA_WIDTH];
@@ -64,7 +64,7 @@ class uvml_stream_driver#(parameter DATA_WIDTH, type T_PACKER = uvml_stream_pack
                 packer.set_data(beat);
             end
             while(~last);
-            rsp.do_unpack(packer); 
+            rsp.unpack(packer); 
             sequencer.put_response(rsp);
         end
     endtask

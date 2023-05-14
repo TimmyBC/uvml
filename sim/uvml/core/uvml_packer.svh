@@ -20,5 +20,18 @@ class uvml_packer extends uvml_object;
     virtual function int get_unpackable_size();
         return 0;
     endfunction
+
+    virtual function int get_beat_count();
+        return 0;
+    endfunction
+
+
+    virtual function void pack_user_bit(logic [0:0] b, int arg = -1);
+    
+    endfunction
+    
+    virtual function logic [0:0] unpack_user_bit(int arg = -1);
+        return 1'bx;
+    endfunction
     
 endclass : uvml_packer

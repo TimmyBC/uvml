@@ -69,6 +69,10 @@ class uvml_stream_packer#(parameter DATA_WIDTH) extends uvml_packer;
     virtual function int get_unpackable_size();
         return (beats.size()*DATA_WIDTH);
     endfunction
-    
+
+    virtual function int get_beat_count();
+        return beats.size();
+    endfunction
+
 endclass
 

@@ -73,7 +73,8 @@ module tb_axi;
                         .ADDR_WIDTH(ADDR_WIDTH), 
                         .DATA_WIDTH(DATA_WIDTH),
                         .USER_WIDTH(USER_WIDTH),
-                        .T_SEQ_ITEM(axi_data_array_seq_item#(USER_WIDTH))) t_axi_agent;
+                        .T_W_SEQ_ITEM(axi_data_array_seq_item#(axi_w_seq_item#(USER_WIDTH), USER_WIDTH)),
+                        .T_R_SEQ_ITEM(axi_data_array_seq_item#(axi_r_seq_item#(USER_WIDTH), USER_WIDTH))) t_axi_agent;
     
     
     initial begin

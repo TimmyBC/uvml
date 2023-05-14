@@ -25,7 +25,7 @@ class uvml_hs_monitor#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_
                 
                 T_SEQ_ITEM seq_item = new($sformatf("hs%0d", count++));
                 packer.set_data(vif_api.get_data());
-                seq_item.do_unpack(packer);
+                seq_item.unpack(packer);
   
                 seq_item.print(logger);                
                 port.write(seq_item);  

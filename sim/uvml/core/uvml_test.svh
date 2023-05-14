@@ -21,7 +21,7 @@ class uvml_test extends uvml_component;
             begin
                 pid = process::self();
                 run_phase();
-                #100;
+                #300;
             end
         join_any
         

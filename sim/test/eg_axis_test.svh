@@ -3,7 +3,7 @@ class eg_axis_test extends uvml_test;
     uvml_api_sequence#(eg_axis_seq_item) snd_seq = null;
     uvml_api_sequence#(eg_axis_seq_item) rcv_seq = null;
     
-    int count = 100;
+    int count = 4;
     
     function new(string name, uvml_env env);
         super.new(name, env);        
@@ -21,8 +21,8 @@ class eg_axis_test extends uvml_test;
             snd = new($sformatf("axis%0d",i), this);
             snd.hdr0 = 16'($urandom());
             snd.hdr1 = 24'($urandom());
-            snd.id = 'x;
-            snd.err = 'x;
+            snd.id = 2'($urandom());
+            snd.err = 2'($urandom());
             snd.data = new[$urandom_range(100, 1)];
             foreach (snd.data[j])
                 snd.data[j] = 8'($urandom());

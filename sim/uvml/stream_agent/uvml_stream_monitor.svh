@@ -31,7 +31,7 @@ class uvml_stream_monitor#(type T_SEQ_ITEM, parameter DATA_WIDTH, type T_PACKER 
             end
             while(~last);
             stream_seq_it = new($sformatf("s%0d", count++));
-            stream_seq_it.do_unpack(packer); 
+            stream_seq_it.unpack(packer); 
             stream_seq_it.print(logger);
             port.write(stream_seq_it);
         end

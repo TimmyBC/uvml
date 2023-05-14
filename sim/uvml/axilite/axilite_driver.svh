@@ -29,8 +29,8 @@ class axilite_driver#(type T_VIF, parameter ADDR_WIDTH, parameter DATA_WIDTH) ex
         axilite_seq_item#(ADDR_WIDTH, DATA_WIDTH) tr;
         uvml_hs_beat#(ADDR_WIDTH) addr_beat;
         uvml_hs_beat#(DATA_WIDTH + (DATA_WIDTH/8)) wr_data_beat;
-        uvml_hs_beat#(2) resp_beat;
-        uvml_hs_beat#(DATA_WIDTH+2) data_resp_beat;
+        uvml_hs_beat#(AXIL_RESP_WIDTH) resp_beat;
+        uvml_hs_beat#(DATA_WIDTH+AXIL_RESP_WIDTH) data_resp_beat;
         uvml_sequence_item req;
         uvml_sequence_item rsp;
         
@@ -80,8 +80,8 @@ class axilite_driver#(type T_VIF, parameter ADDR_WIDTH, parameter DATA_WIDTH) ex
         axilite_seq_item#(ADDR_WIDTH, DATA_WIDTH) tr;
         uvml_hs_beat#(ADDR_WIDTH) addr_beat;
         uvml_hs_beat#(DATA_WIDTH + (DATA_WIDTH/8)) data_beat;
-        uvml_hs_beat#(2) resp_beat;
-        uvml_hs_beat#(DATA_WIDTH+2) data_resp_beat;
+        uvml_hs_beat#(AXIL_RESP_WIDTH) resp_beat;
+        uvml_hs_beat#(DATA_WIDTH+AXIL_RESP_WIDTH) data_resp_beat;
         uvml_sequence_item req;
         uvml_sequence_item rsp;
         int loop;       

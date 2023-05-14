@@ -15,7 +15,7 @@ $mode = $args[0]
 
 if ($mode -eq "v"){
 	echo "Viewing vsim.wlf..."
-	Start-Process -FilePath "vsim.exe" -ArgumentList "-view vsim.wlf" -NoNewWindow
+	Start-Process -FilePath "vsim.exe" -ArgumentList "-view vsim.wlf -do `"wave.do`"" -NoNewWindow
 } elseif ($mode -eq "c"){
 	echo "Cleaning..."
 	if (Test-Path ".\work") { rmdir work }
@@ -51,7 +51,7 @@ if ($mode -eq "v"){
 
 	echo "Starting GUI..."
 
-	Start-Process -FilePath "vsim.exe" -ArgumentList "-voptargs=`"+acc=lnpr`" -t 1ns -lib work work.$Testbench -onfinish stop -do `"log -r /*`" -do `"run 0`" -do wave.do"  -NoNewWindow
+	Start-Process -FilePath "vsim.exe" -ArgumentList "-voptargs=`"+acc=lnpr`" -t 1ns -lib work work.$Testbench -onfinish stop -do `"log -r /*`" -do `"run 0`" -do `"wave.do`""  -NoNewWindow
 
 } elseif ($mode -eq "gc") {
 

@@ -53,7 +53,7 @@ class uvml_hs_driver#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_d
                     if (drive.get_next_value(ready) & sequencer.has_items()) begin   
                         assert (sequencer.try_next_item(req));
                         packer.reset();
-                        req.do_pack(packer);  
+                        req.pack(packer);  
 
                         vif_api.set_valid(1'b1); 
                         if (ready === 1'b1) begin                      
@@ -74,7 +74,7 @@ class uvml_hs_driver#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_d
                     if (drive.get_next_value(ready) & sequencer.has_items()) begin   
                         assert (sequencer.try_next_item(req));
                         packer.reset();
-                        req.do_pack(packer);     
+                        req.pack(packer);     
                         
                         vif_api.set_data(packer.get_data());
                         vif_api.set_valid(1'b1);
@@ -138,7 +138,7 @@ class uvml_hs_driver#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_d
                 assert (sequencer.try_next_item(req));
                 assert ($cast(rsp, req));
                 packer.set_data(vif_api.get_data());
-                rsp.do_unpack(packer);
+                rsp.unpack(packer);
                 sequencer.put_response(rsp);                
             end
             

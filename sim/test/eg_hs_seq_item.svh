@@ -15,9 +15,16 @@ class eg_hs_seq_item extends uvml_hs_seq_item;
     function int do_compare(uvml_sequence_item rhs);
         eg_hs_seq_item _rhs;
         void'($cast(_rhs, rhs));
-        return `uvml_compare_logic(a) && `uvml_compare_logic(b);
+        return a === _rhs.a && b === _rhs.b;
     endfunction
     
+    function void do_copy(uvml_sequence_item rhs);
+        eg_hs_seq_item _rhs;
+        void'($cast(_rhs, rhs));
+        a = _rhs.a;
+        b = _rhs.b;
+    endfunction
+        
     function void do_pack(uvml_packer p);
         `uvml_pack_logic(a);
         `uvml_pack_logic(b);

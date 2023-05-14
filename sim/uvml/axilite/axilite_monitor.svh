@@ -26,7 +26,7 @@ class axilite_monitor#(type T_VIF, parameter ADDR_WIDTH, parameter DATA_WIDTH) e
         uvml_hs_beat#(ADDR_WIDTH) addr_beat;
         uvml_hs_beat#(DATA_WIDTH + (DATA_WIDTH/8)) data_beat;
         uvml_hs_beat#(2) resp_beat;
-        uvml_hs_beat#(DATA_WIDTH+2) data_resp_beat;
+        uvml_hs_beat#(DATA_WIDTH+AXIL_RESP_WIDTH) data_resp_beat;
         uvml_sequence_item addr;
         uvml_sequence_item data;
         uvml_sequence_item rsp;

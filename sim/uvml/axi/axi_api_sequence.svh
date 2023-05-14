@@ -1,4 +1,4 @@
-class axi_api_sequence#(parameter ADDR_WIDTH = 32, parameter DATA_WIDTH = 32, parameter USER_WIDTH = 1, type T_SEQ_ITEM = axi_rw_seq_item) extends uvml_sequence;
+class axi_api_sequence#(parameter ADDR_WIDTH = 32, parameter DATA_WIDTH = 32, parameter USER_WIDTH = 1, type T_W_SEQ_ITEM = axi_w_seq_item, type T_R_SEQ_ITEM = axi_r_seq_item) extends uvml_sequence;
     
     int count = 0;
     
@@ -31,7 +31,7 @@ class axi_api_sequence#(parameter ADDR_WIDTH = 32, parameter DATA_WIDTH = 32, pa
         aw_seqr_h.send(req);
     endtask
     
-    task send_write_data(T_SEQ_ITEM data);
+    task send_write_data(T_W_SEQ_ITEM data);
         w_seqr_h.send(data);
     endtask
     
@@ -51,19 +51,19 @@ class axi_api_sequence#(parameter ADDR_WIDTH = 32, parameter DATA_WIDTH = 32, pa
         ar_seqr_h.send(req);
     endtask
     
-    task rcv_read_data(output T_SEQ_ITEM data, input int ns = SEQUENCER_WAIT_FOREVER, input string name = "m_rd_data");
+    task rcv_read_data(output T_R_SEQ_ITEM data, input int ns = SEQUENCER_WAIT_FOREVER, input string name = "m_rd_data");
         uvml_sequence_item _rsp;
         data = new(get_seq_item_name(name));
         assert($cast(_rsp, data));
         r_seqr_h.receive(_rsp, ns);
     endtask
     
-    task m_read(logic [ADDR_WIDTH-1:0] addr, logic [AXI_LEN_WIDTH-1:0] len, output T_SEQ_ITEM data, input int ns = SEQUENCER_WAIT_FOREVER, input string name = "rd");
+    task m_read(logic [ADDR_WIDTH-1:0] addr, logic [AXI_LEN_WIDTH-1:0] len, output T_R_SEQ_ITEM data, input int ns = SEQUENCER_WAIT_FOREVER, input string name = "rd");
         send_read_request(addr, len, {name, "_m_rreq"});
         rcv_read_data(data, ns, {name, "_m_rdata"});
     endtask
     
-    task m_write(logic [ADDR_WIDTH-1:0] addr, logic [AXI_LEN_WIDTH-1:0] len, T_SEQ_ITEM data, output logic [AXI_RESP_WIDTH-1:0] resp, output logic [USER_WIDTH-1:0] user, input int ns = SEQUENCER_WAIT_FOREVER, input string name = "wr");
+    task m_write(logic [ADDR_WIDTH-1:0] addr, logic [AXI_LEN_WIDTH-1:0] len, T_W_SEQ_ITEM data, output logic [AXI_RESP_WIDTH-1:0] resp, output logic [USER_WIDTH-1:0] user, input int ns = SEQUENCER_WAIT_FOREVER, input string name = "wr");
         send_write_request(addr, len, {name, "_m_wreq"});
         send_write_data(data);
         rcv_write_response(resp, user, ns, {name, "_m_wrsp"});
@@ -81,7 +81,7 @@ class axi_api_sequence#(parameter ADDR_WIDTH = 32, parameter DATA_WIDTH = 32, pa
         len = req.len;
     endtask
     
-    task rcv_write_data(output T_SEQ_ITEM data, input int ns = SEQUENCER_WAIT_FOREVER, input string name = "s_wr_data");
+    task rcv_write_data(output T_W_SEQ_ITEM data, input int ns = SEQUENCER_WAIT_FOREVER, input string name = "s_wr_data");
         uvml_sequence_item rsp;
         data = new(get_seq_item_name(name));
         rsp = data;
@@ -104,16 +104,16 @@ class axi_api_sequence#(parameter ADDR_WIDTH = 32, parameter DATA_WIDTH = 32, pa
         len = req.len;
     endtask
     
-    task send_read_data(T_SEQ_ITEM data, input string name = "rd_data");
+    task send_read_data(T_R_SEQ_ITEM data, input string name = "rd_data");
         r_seqr_h.send(data);
     endtask
     
-    task s_read(output logic [ADDR_WIDTH-1:0] addr, output logic [AXI_LEN_WIDTH-1:0] len, input T_SEQ_ITEM data, input int ns = SEQUENCER_WAIT_FOREVER, input string name = "s_rd");
+    task s_read(output logic [ADDR_WIDTH-1:0] addr, output logic [AXI_LEN_WIDTH-1:0] len, input T_R_SEQ_ITEM data, input int ns = SEQUENCER_WAIT_FOREVER, input string name = "s_rd");
         rcv_read_request(addr, len, ns, {name, "_s_rreq"});
         send_read_data(data, {name, "_s_rdata"});
     endtask
     
-    task s_write(output logic [ADDR_WIDTH-1:0] addr, output logic [AXI_LEN_WIDTH-1:0] len, output T_SEQ_ITEM data, input logic [AXI_RESP_WIDTH-1:0] resp, input logic [USER_WIDTH-1:0] user, input int ns = SEQUENCER_WAIT_FOREVER, input string name = "wr");
+    task s_write(output logic [ADDR_WIDTH-1:0] addr, output logic [AXI_LEN_WIDTH-1:0] len, output T_W_SEQ_ITEM data, input logic [AXI_RESP_WIDTH-1:0] resp, input logic [USER_WIDTH-1:0] user, input int ns = SEQUENCER_WAIT_FOREVER, input string name = "wr");
         rcv_write_request(addr, len, ns, {name, "_s_wreq"});
         rcv_write_data(data, ns, {name, "_s_wdata"});
         send_write_response(resp, user, {name, "_s_wrsp"});

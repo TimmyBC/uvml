@@ -21,7 +21,10 @@ class axilite_seq_item#(parameter ADDR_WIDTH, parameter DATA_WIDTH) extends uvml
     function int do_compare(uvml_sequence_item rhs);
         axilite_seq_item#(ADDR_WIDTH, DATA_WIDTH) _rhs;
         void'($cast(_rhs, rhs));
-        return `uvml_compare_logic(addr) && `uvml_compare_logic(data) && `uvml_compare_logic(resp);
+        return  addr === _rhs.addr && 
+                data === _rhs.data &&
+                strb === _rhs.strb && 
+                resp === _rhs.resp;
     endfunction
     
     function void do_copy(uvml_sequence_item rhs);

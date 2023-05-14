@@ -1,13 +1,13 @@
 class axilite_agent#(type T_VIF, parameter ADDR_WIDTH, parameter DATA_WIDTH) extends uvml_agent;
 
     localparam HS_WDATA_WIDTH = DATA_WIDTH + (DATA_WIDTH/8);
-    localparam HS_RDATA_WIDTH = DATA_WIDTH + 2;
+    localparam HS_RDATA_WIDTH = DATA_WIDTH + AXIL_RESP_WIDTH;
     
-    uvml_hs_agent#(uvml_hs_beat#(ADDR_WIDTH), ADDR_WIDTH)         awaddr_agent;
-    uvml_hs_agent#(uvml_hs_beat#(HS_WDATA_WIDTH), HS_WDATA_WIDTH) wdata_agent;
-    uvml_hs_agent#(uvml_hs_beat#(2), 2)                           bresp_agent;
-    uvml_hs_agent#(uvml_hs_beat#(ADDR_WIDTH), ADDR_WIDTH)         araddr_agent;
-    uvml_hs_agent#(uvml_hs_beat#(HS_RDATA_WIDTH), HS_RDATA_WIDTH) rdata_agent;
+    uvml_hs_agent#(uvml_hs_beat#(ADDR_WIDTH), ADDR_WIDTH)           awaddr_agent;
+    uvml_hs_agent#(uvml_hs_beat#(HS_WDATA_WIDTH), HS_WDATA_WIDTH)   wdata_agent;
+    uvml_hs_agent#(uvml_hs_beat#(AXIL_RESP_WIDTH), AXIL_RESP_WIDTH) bresp_agent;
+    uvml_hs_agent#(uvml_hs_beat#(ADDR_WIDTH), ADDR_WIDTH)           araddr_agent;
+    uvml_hs_agent#(uvml_hs_beat#(HS_RDATA_WIDTH), HS_RDATA_WIDTH)   rdata_agent;
     
     axilite_awaddr_if_api#(T_VIF, ADDR_WIDTH)   awaddr_if_api;
     axilite_wdata_if_api#(T_VIF, DATA_WIDTH)    wdata_if_api;
@@ -49,7 +49,7 @@ class axilite_agent#(type T_VIF, parameter ADDR_WIDTH, parameter DATA_WIDTH) ext
         
         awaddr_agent = new(env, {name, ".awaddr_agent"}, awaddr_if_api, agent_type_a, uvml_hs_drive_random#(ADDR_WIDTH)::create(), LOG_DISABLE);
         wdata_agent  = new(env, {name, ".wdata_agent"},  wdata_if_api, agent_type_a, uvml_hs_drive_random#(HS_WDATA_WIDTH)::create(), LOG_DISABLE);
-        bresp_agent  = new(env, {name, ".bresp_agent"},  bresp_if_api, agent_type_b, uvml_hs_drive_random#(2)::create(), LOG_DISABLE);
+        bresp_agent  = new(env, {name, ".bresp_agent"},  bresp_if_api, agent_type_b, uvml_hs_drive_random#(AXIL_RESP_WIDTH)::create(), LOG_DISABLE);
         araddr_agent = new(env, {name, ".araddr_agent"}, araddr_if_api, agent_type_a, uvml_hs_drive_random#(ADDR_WIDTH)::create(), LOG_DISABLE);
         rdata_agent  = new(env, {name, ".rdata_agent"},  rdata_if_api, agent_type_b, uvml_hs_drive_random#(HS_RDATA_WIDTH)::create(), LOG_DISABLE);
         

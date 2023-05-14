@@ -23,7 +23,7 @@ class uvml_checker#(type T_SEQ_ITEM) extends uvml_component;
                 ex_port_predict.get(pred);
             join
             
-            assert (pred.do_compare(actual))begin
+            assert (pred.compare(actual))begin
                 match_count++;
             end
             else begin

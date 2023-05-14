@@ -9,7 +9,7 @@ class axilite_api_sequence#(parameter ADDR_WIDTH = 32, parameter DATA_WIDTH = 32
 
     //master interface
     
-    virtual task write_resp(logic [ADDR_WIDTH-1:0] addr, logic [DATA_WIDTH-1:0] data, output logic [1:0] resp, input logic [(DATA_WIDTH/8-1):0] strb = '1);
+    virtual task write_resp(logic [ADDR_WIDTH-1:0] addr, logic [DATA_WIDTH-1:0] data, output logic [AXIL_RESP_WIDTH-1:0] resp, input logic [(DATA_WIDTH/8-1):0] strb = '1);
         axilite_seq_item#(ADDR_WIDTH, DATA_WIDTH) tr = new($sformatf("%s.WR%0d", name, count));
         tr.op = AXILITE_WRITE;
         tr.addr = addr;
@@ -20,7 +20,7 @@ class axilite_api_sequence#(parameter ADDR_WIDTH = 32, parameter DATA_WIDTH = 32
         count++;
     endtask
     
-    virtual task read_resp(logic [ADDR_WIDTH-1:0] addr, output logic [DATA_WIDTH-1:0] data, output logic [1:0] resp);
+    virtual task read_resp(logic [ADDR_WIDTH-1:0] addr, output logic [DATA_WIDTH-1:0] data, output logic [AXIL_RESP_WIDTH-1:0] resp);
         axilite_seq_item#(ADDR_WIDTH, DATA_WIDTH) tr = new($sformatf("%s.RD%0d", name, count));
         tr.op = AXILITE_READ;
         tr.addr = addr;
@@ -72,11 +72,11 @@ class axilite_api_sequence#(parameter ADDR_WIDTH = 32, parameter DATA_WIDTH = 32
         join_none
     endtask
     
-    virtual task on_write_request(logic [ADDR_WIDTH-1:0] addr, logic [DATA_WIDTH-1:0] data, output [1:0] resp);
+    virtual task on_write_request(logic [ADDR_WIDTH-1:0] addr, logic [DATA_WIDTH-1:0] data, output [AXIL_RESP_WIDTH-1:0] resp);
         `uvml_fatal("All slave sequences must implement 'on_write_request'");
     endtask
     
-    virtual task on_read_request(logic [ADDR_WIDTH-1:0] addr, output logic [DATA_WIDTH-1:0] data, output [1:0] resp);
+    virtual task on_read_request(logic [ADDR_WIDTH-1:0] addr, output logic [DATA_WIDTH-1:0] data, output [AXIL_RESP_WIDTH-1:0] resp);
         `uvml_fatal("All slave sequences must implement 'on_read_request'");
     endtask
     

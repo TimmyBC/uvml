@@ -39,5 +39,9 @@ class uvml_hs_packer#(parameter DATA_WIDTH) extends uvml_packer;
     virtual function int get_unpackable_size();
         return (DATA_WIDTH - ptr);
     endfunction
+ 
+    virtual function int get_beat_count();
+        return 1;
+    endfunction
     
 endclass : uvml_hs_packer

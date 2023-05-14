@@ -1,4 +1,4 @@
-class axi_agent#(type T_VIF, parameter ADDR_WIDTH, parameter DATA_WIDTH, parameter USER_WIDTH, type T_SEQ_ITEM = axi_rw_seq_item) extends uvml_agent;
+class axi_agent#(type T_VIF, parameter ADDR_WIDTH, parameter DATA_WIDTH, parameter USER_WIDTH, type T_W_SEQ_ITEM = axi_w_seq_item, type T_R_SEQ_ITEM = axi_r_seq_item) extends uvml_agent;
 
 
     localparam HS_ADDR_WIDTH    = ADDR_WIDTH + AXI_LEN_WIDTH; 
@@ -7,10 +7,10 @@ class axi_agent#(type T_VIF, parameter ADDR_WIDTH, parameter DATA_WIDTH, paramet
     localparam STRM_RDATA_WIDTH = DATA_WIDTH + AXI_RESP_WIDTH + USER_WIDTH;
     
     uvml_hs_agent#(axi_aw_seq_item#(ADDR_WIDTH), HS_ADDR_WIDTH)                                  awaddr_agent;
-    uvml_stream_agent#(T_SEQ_ITEM, STRM_WDATA_WIDTH, axi_w_packer#(DATA_WIDTH, USER_WIDTH))      wdata_agent;
+    uvml_stream_agent#(T_W_SEQ_ITEM, STRM_WDATA_WIDTH, axi_w_packer#(DATA_WIDTH, USER_WIDTH))    wdata_agent;
     uvml_hs_agent#(axi_b_seq_item#(USER_WIDTH), HS_BRESP_WIDTH)                                  bresp_agent;
     uvml_hs_agent#(axi_ar_seq_item#(ADDR_WIDTH), HS_ADDR_WIDTH)                                  araddr_agent;
-    uvml_stream_agent#(T_SEQ_ITEM, STRM_RDATA_WIDTH, axi_r_packer#(DATA_WIDTH, USER_WIDTH)) rdata_agent;
+    uvml_stream_agent#(T_R_SEQ_ITEM, STRM_RDATA_WIDTH, axi_r_packer#(DATA_WIDTH, USER_WIDTH))    rdata_agent;
     
     axi_awaddr_if_api#(T_VIF, ADDR_WIDTH)               awaddr_if_api;
     axi_wdata_if_api#(T_VIF, DATA_WIDTH, USER_WIDTH)    wdata_if_api;
