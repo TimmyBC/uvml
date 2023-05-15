@@ -4,11 +4,11 @@ class eg_axis_seq_item extends axis_sequence_item;
     logic [23:0] hdr1;
     logic [1:0]  id;
     logic [1:0]  err;
-    logic [7:0]  data[];
+    logic [7:0]  data[]; 
     
     `uvml_object_utils_begin(eg_axis_seq_item)
         `uvml_field_logic(hdr0, `UVML_DEFAULT)
-        `uvml_field_logic(hdr1, `UVML_DEFAULT)
+        `uvml_field_logic_bs(hdr1, `UVML_DEFAULT)
         `uvml_field_array(data, `UVML_DEFAULT | `UVML_FILL)
         `uvml_field_logic(id, `UVML_NO_PACK)
         `uvml_field_logic(err, `UVML_NO_PACK)

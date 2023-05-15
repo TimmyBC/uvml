@@ -49,6 +49,17 @@
     for (int _j=0; _j<v.size(); _j++)\
         for(int _i=0; _i<$bits(v[0]); _i++) v[_j][_i] = p.unpack_bit();
 
+`define uvml_pack_logic_bs(v)\
+    for(int _i=$bits(v) - 8; _i>=0; _i-=8) \
+        for(int _j=0; _j<8; _j++) \
+            p.pack_bit(v[_i + _j]);
+    
+`define uvml_unpack_logic_bs(v)\
+    for(int _i=$bits(v) - 8; _i>=0; _i-=8) \
+        for(int _j=0; _j<8; _j++) \
+            v[_i + _j] = p.unpack_bit();
+
+
 
 
 `define uvml_user_pack_logic(v, beat_index)\
@@ -65,6 +76,17 @@
     for (int _j=0; _j<v.size(); _j++)\
         for(int _i=0; _i<$bits(v[0]); _i++) v[_j][_i] = p.unpack_user_bit(beat_index);
 
+`define uvml_user_pack_logic_bs(v, beat_index)\
+    for(int _i=$bits(v) - 8; _i>=0; _i-=8) \
+        for(int _j=0; _j<8; _j++) \
+            p.pack_user_bit(v[_i + _j], beat_index);
+    
+`define uvml_user_unpack_logic_bs(v, beat_index)\
+    for(int _i=$bits(v) - 8; _i>=0; _i-=8) \
+        for(int _j=0; _j<8; _j++) \
+            v[_i + _j] = p.unpack_user_bit(beat_index);
+   
+   
 
 `define uvml_user_pack_logic_at_last(v)\
     for(int _i=0; _i<$bits(v); _i++) p.pack_user_bit(v[_i], -1);
@@ -142,6 +164,25 @@
             end \
         endcase
 
+`define uvml_field_logic_bs(f, flg) \
+        case (op) \
+            SEQ_ITM_COPY : begin  \
+                if (flg & `UVML_COPY) f = rhs.f; \
+            end \
+            SEQ_ITM_CMP : begin \
+                if (flg & `UVML_CMP) cmp &= (f === rhs.f) ? 1 : 0; \
+            end \
+            SEQ_ITM_PRNT: begin \
+                if (flg & `UVML_PRNT) `uvml_print_logic(f) \
+            end \
+            SEQ_ITM_PACK: begin \
+                if (flg & `UVML_PACK) `uvml_pack_logic_bs(f); \
+            end \
+            SEQ_ITM_UNPK: begin \
+                if (flg & `UVML_PACK) `uvml_unpack_logic_bs(f); \
+            end \
+        endcase
+        
 `define uvml_field_array(f, flg) \
         case (op) \
             SEQ_ITM_COPY : begin  \
