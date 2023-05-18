@@ -7,3 +7,4 @@
 "../rtl/reg_slice.sv"
 "../rtl/reg_axis.sv"
 "../rtl/reg_axi.sv"
+"../rtl/reg_axilite.sv"

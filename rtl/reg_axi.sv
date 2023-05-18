@@ -76,7 +76,7 @@ module reg_axi(
         .s_data ({m_axi.ruser, m_axi.rresp, m_axi.rlast, m_axi.rdata}),
         .s_valid(m_axi.rvalid),
         .s_ready(m_axi.rready),
-        .m_data ({s_axi.ruser, s_axi.rready, s_axi.rlast, s_axi.rdata}),
+        .m_data ({s_axi.ruser, s_axi.rresp, s_axi.rlast, s_axi.rdata}),
         .m_valid(s_axi.rvalid),
         .m_ready(s_axi.rready)
     );

@@ -42,6 +42,8 @@ module tb_stream;
         .m_ready(s_stream_if.ready)
     );
 
+//    assign {s_stream_if.ready, s_stream_if.valid, s_stream_if.last, s_stream_if.data} = {m_stream_if.ready, m_stream_if.valid, m_stream_if.last, m_stream_if.data};
+    
     typedef uvml_stream_agent#(.T_SEQ_ITEM(uvml_stream_packet), .DATA_WIDTH(DATA_WIDTH)) t_uvml_stream_agent;
     typedef uvml_stream_if_api#(.T_VIF(virtual stream_if#(.DATA_WIDTH(DATA_WIDTH))), .DATA_WIDTH(DATA_WIDTH)) t_uvml_stream_if_api;
     

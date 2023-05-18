@@ -1,5 +1,10 @@
-class axis_if_api#(type T_VIF, parameter STREAM_DATA_WIDTH) extends uvml_stream_if_api_base#(STREAM_DATA_WIDTH);
+virtual class axis_if_api_base#(parameter DATA_WIDTH, parameter USER_WIDTH) extends uvml_stream_if_api_base#(DATA_WIDTH + (DATA_WIDTH/8) + USER_WIDTH);
     
+endclass
+
+class axis_if_api#(type T_VIF, parameter DATA_WIDTH, parameter USER_WIDTH) extends axis_if_api_base#(DATA_WIDTH, USER_WIDTH);
+    
+    localparam STREAM_DATA_WIDTH = DATA_WIDTH + (DATA_WIDTH/8) + USER_WIDTH; 
     T_VIF vif;
     
     function new(T_VIF vif);

@@ -46,23 +46,24 @@ module tb_axis;
 //    assign s_axis_if.valid = m_axis_if.valid;
 //    assign m_axis_if.ready = s_axis_if.ready;
 
-    typedef axis_agent#(.T_VIF(virtual axis_if#(
-                                .DATA_WIDTH(DATA_WIDTH), 
-                                .USER_WIDTH(USER_WIDTH))), 
-                        .T_SEQ_ITEM(eg_axis_seq_item), 
-                        .DATA_WIDTH(DATA_WIDTH), 
-                        .USER_WIDTH(USER_WIDTH)) t_axis_agent;
+    typedef axis_agent#(eg_axis_seq_item,DATA_WIDTH,USER_WIDTH) t_axis_agent;    
+    typedef axis_if_api#(virtual axis_if#(DATA_WIDTH, USER_WIDTH), DATA_WIDTH, USER_WIDTH) t_axis_if_api;
     
     initial begin
         uvml_env env;
         eg_axis_test test;
         uvml_checker#(eg_axis_seq_item) chk;
         t_axis_agent master_agent;
-        t_axis_agent slave_agent;
+        t_axis_agent slave_agent;        
+        t_axis_if_api m_axis_if_api;
+        t_axis_if_api s_axis_if_api;
+        
+        m_axis_if_api = new(m_axis_if);
+        s_axis_if_api = new(s_axis_if);
         
         env = new("env");
-        master_agent = new(env, "master_agent", m_axis_if, MASTER_AGENT, axis_drive_random#(DATA_WIDTH, USER_WIDTH)::create(), COLOR_CYAN);
-        slave_agent = new(env, "slave_agent", s_axis_if, SLAVE_AUTO_AGENT, axis_drive_random#(DATA_WIDTH, USER_WIDTH)::create(), COLOR_MAGENTA);
+        master_agent = new(env, "master_agent", m_axis_if_api, MASTER_AGENT, axis_drive_random#(DATA_WIDTH, USER_WIDTH)::create(), COLOR_CYAN);
+        slave_agent = new(env, "slave_agent", s_axis_if_api, SLAVE_AUTO_AGENT, axis_drive_random#(DATA_WIDTH, USER_WIDTH)::create(), COLOR_MAGENTA);
         
         chk = new("checker", env, 1);        
         chk.finish_on_mismatch = 0;

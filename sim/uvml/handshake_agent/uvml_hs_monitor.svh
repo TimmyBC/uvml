@@ -14,7 +14,7 @@ class uvml_hs_monitor#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_
     virtual task run_phase();
         int count = 0;
         logic [0:0] ready = '0;
-        
+        #1;
         forever begin
             #0;                         //To achieve same sub cycle behaviour in all simulators
             vif_api.wait_clock();

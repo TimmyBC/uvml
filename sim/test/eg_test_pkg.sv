@@ -18,5 +18,5 @@ package eg_test_pkg;
     `include "eg_axis_test.svh"
     `include "eg_axilite_test.svh"
     `include "eg_axi_test.svh"
-    
+
 endpackage

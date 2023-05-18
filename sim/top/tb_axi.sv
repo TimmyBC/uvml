@@ -36,34 +36,40 @@ module tb_axi;
 
     //DUT
     
-    assign s_axi_if.awaddr = m_axi_if.awaddr;
-    assign s_axi_if.awlen = m_axi_if.awlen;
-    assign s_axi_if.awvalid = m_axi_if.awvalid;
-    assign m_axi_if.awready = s_axi_if.awready;
-    
-    assign s_axi_if.wdata = m_axi_if.wdata;
-    assign s_axi_if.wstrb = m_axi_if.wstrb;
-    assign s_axi_if.wlast = m_axi_if.wlast;
-    assign s_axi_if.wuser = m_axi_if.wuser;
-    assign s_axi_if.wvalid = m_axi_if.wvalid;
-    assign m_axi_if.wready = s_axi_if.wready;
-    
-    assign m_axi_if.bresp = s_axi_if.bresp;
-    assign m_axi_if.buser = s_axi_if.buser;
-    assign m_axi_if.bvalid = s_axi_if.bvalid;
-    assign s_axi_if.bready = m_axi_if.bready;
-    
-    assign s_axi_if.araddr = m_axi_if.araddr;
-    assign s_axi_if.arlen = m_axi_if.arlen;
-    assign s_axi_if.arvalid = m_axi_if.arvalid;
-    assign m_axi_if.arready = s_axi_if.arready;
-    
-    assign m_axi_if.rdata = s_axi_if.rdata;
-    assign m_axi_if.rlast = s_axi_if.rlast;
-    assign m_axi_if.ruser = s_axi_if.ruser;
-    assign m_axi_if.rresp = s_axi_if.rresp;
-    assign m_axi_if.rvalid = s_axi_if.rvalid;
-    assign s_axi_if.rready = m_axi_if.rready;
+    reg_axi u_reg_axi (
+        .clk  (aclk),
+        .rst  (~aresetn),
+        .m_axi(s_axi_if),
+        .s_axi(m_axi_if)
+    );
+//    assign s_axi_if.awaddr = m_axi_if.awaddr;
+//    assign s_axi_if.awlen = m_axi_if.awlen;
+//    assign s_axi_if.awvalid = m_axi_if.awvalid;
+//    assign m_axi_if.awready = s_axi_if.awready;
+//    
+//    assign s_axi_if.wdata = m_axi_if.wdata;
+//    assign s_axi_if.wstrb = m_axi_if.wstrb;
+//    assign s_axi_if.wlast = m_axi_if.wlast;
+//    assign s_axi_if.wuser = m_axi_if.wuser;
+//    assign s_axi_if.wvalid = m_axi_if.wvalid;
+//    assign m_axi_if.wready = s_axi_if.wready;
+//    
+//    assign m_axi_if.bresp = s_axi_if.bresp;
+//    assign m_axi_if.buser = s_axi_if.buser;
+//    assign m_axi_if.bvalid = s_axi_if.bvalid;
+//    assign s_axi_if.bready = m_axi_if.bready;
+//    
+//    assign s_axi_if.araddr = m_axi_if.araddr;
+//    assign s_axi_if.arlen = m_axi_if.arlen;
+//    assign s_axi_if.arvalid = m_axi_if.arvalid;
+//    assign m_axi_if.arready = s_axi_if.arready;
+//    
+//    assign m_axi_if.rdata = s_axi_if.rdata;
+//    assign m_axi_if.rlast = s_axi_if.rlast;
+//    assign m_axi_if.ruser = s_axi_if.ruser;
+//    assign m_axi_if.rresp = s_axi_if.rresp;
+//    assign m_axi_if.rvalid = s_axi_if.rvalid;
+//    assign s_axi_if.rready = m_axi_if.rready;
 
 
     typedef axi_agent#(.T_VIF(virtual axi_if#( 

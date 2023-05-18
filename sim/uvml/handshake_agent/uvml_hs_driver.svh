@@ -37,7 +37,6 @@ class uvml_hs_driver#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_d
         logic [0:0] ready;
         logic [DATA_WIDTH-1:0] buffer;
         hs_driver_state state;
-        
         state = ST_WAIT_VALID;
         
         vif_api.wait_reset();
@@ -102,7 +101,7 @@ class uvml_hs_driver#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_d
         
         forever begin
             vif_api.wait_clock();
-        
+            #0;
             ready = drive.get_next_value(vif_api.get_valid());
             vif_api.set_ready(ready);    
         end
@@ -127,12 +126,8 @@ class uvml_hs_driver#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_d
         forever begin
             
             vif_api.wait_clock();
-//            valid_reg = valid;
-            
+            #0;            
             valid = vif_api.get_valid();
-            
-            
-            
             
             if (valid & ready) begin
                 assert (sequencer.try_next_item(req));

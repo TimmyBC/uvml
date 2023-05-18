@@ -1,6 +1,6 @@
 # $Testbench="tb_axi"
-# $Testbench="tb_axilite"
- $Testbench="tb_axis"
+ $Testbench="tb_axilite"
+# $Testbench="tb_axis"
 # $Testbench="tb_stream"
 # $Testbench="tb_hs"
 
