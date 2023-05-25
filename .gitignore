@@ -7,3 +7,4 @@ sim/.project
 sim/xsim/vivado*
 sim/xsim/uvml.*
 !sim/xsim/uvml.xpr
+uvml.code-workspace
