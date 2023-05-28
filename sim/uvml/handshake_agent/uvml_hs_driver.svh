@@ -35,8 +35,8 @@ class uvml_hs_driver#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_d
         int retry;
         logic [0:0] valid;
         logic [0:0] ready;
-        logic [DATA_WIDTH-1:0] buffer;
         hs_driver_state state;
+        logic [DATA_WIDTH-1:0] data = 'x;
         state = ST_WAIT_VALID;
         
         vif_api.wait_reset();
@@ -46,17 +46,18 @@ class uvml_hs_driver#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_d
             vif_api.wait_clock();
             
             ready = vif_api.get_ready();
-            
+            // #1;
             case(state)
                 ST_VALID_READY: begin                    
-                    if (drive.get_next_value(ready) & sequencer.has_items()) begin   
+                    if (drive.get_next_value(ready, data) & sequencer.has_items()) begin   
                         assert (sequencer.try_next_item(req));
                         packer.reset();
                         req.pack(packer);  
 
                         vif_api.set_valid(1'b1); 
-                        if (ready === 1'b1) begin                      
-                            vif_api.set_data(packer.get_data());
+                        if (ready === 1'b1) begin       
+                            data = packer.get_data();
+                            vif_api.set_data(data);
                         end
                         else begin 
                             //previously set data is valid
@@ -70,19 +71,21 @@ class uvml_hs_driver#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_d
                     end
                 end
                 ST_WAIT_VALID: begin
-                    if (drive.get_next_value(ready) & sequencer.has_items()) begin   
+                    if (drive.get_next_value(ready, data) & sequencer.has_items()) begin   
                         assert (sequencer.try_next_item(req));
                         packer.reset();
                         req.pack(packer);     
                         
-                        vif_api.set_data(packer.get_data());
+                        data = packer.get_data();
+                        vif_api.set_data(data);
                         vif_api.set_valid(1'b1);
                         state = ST_VALID_READY;
                     end
                 end
                 ST_WAIT_READY: begin
                     if (ready === 1'b1) begin
-                        vif_api.set_data(packer.get_data());
+                        data = packer.get_data();
+                        vif_api.set_data(data);
                         vif_api.set_valid(1'b1);  
                         state = ST_VALID_READY;
                     end
@@ -94,19 +97,20 @@ class uvml_hs_driver#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_d
 
 
     task slave_auto_run_phase();
-        logic [0:0] ready;        
-        
+        logic [0:0] valid = 1'b0;        
+        logic [DATA_WIDTH-1:0] data = 1'bx;   
+
         vif_api.wait_reset();
         vif_api.set_ready(1'b0);
         
         forever begin
             vif_api.wait_clock();
             #0;
-            ready = drive.get_next_value(vif_api.get_valid());
-            vif_api.set_ready(ready);    
+            valid = vif_api.get_valid();
+            data = vif_api.get_data();  
+            vif_api.set_ready(drive.get_next_value(valid, data));  
         end
     endtask
-
 
 
     task slave_run_phase(int auto);
@@ -115,7 +119,8 @@ class uvml_hs_driver#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_d
         int retry;
         logic [0:0] valid;    
         logic [0:0] ready;    
-        logic [0:0] valid_reg;        
+        logic [0:0] valid_reg;    
+        logic [DATA_WIDTH-1:0] data = 'x;    
         hs_driver_state state = ST_WAIT_VALID;
         
         valid = '0;
@@ -128,17 +133,18 @@ class uvml_hs_driver#(type T_SEQ_ITEM, parameter DATA_WIDTH = 64) extends uvml_d
             vif_api.wait_clock();
             #0;            
             valid = vif_api.get_valid();
-            
+            data = vif_api.get_data();
+
             if (valid & ready) begin
                 assert (sequencer.try_next_item(req));
                 assert ($cast(rsp, req));
-                packer.set_data(vif_api.get_data());
+                packer.set_data(data);
                 rsp.unpack(packer);
                 sequencer.put_response(rsp);                
             end
             
             
-            ready = drive.get_next_value(valid) & sequencer.has_items();
+            ready = drive.get_next_value(valid, data) & sequencer.has_items();
             vif_api.set_ready(ready);
                 
 //            case (state)

@@ -85,9 +85,8 @@ class axi_r_seq_item#(parameter USER_WIDTH = 0) extends axi_rw_seq_item;
         end
         
         foreach(resp[i]) begin
-            foreach(resp[i][j]) begin
+            for (int j=0; j<AXI_RESP_WIDTH; j++)
                 p.pack_user_bit(resp[i][j], i - RESP_ARG_OFFSET);
-            end
         end
     endfunction
     
@@ -96,9 +95,8 @@ class axi_r_seq_item#(parameter USER_WIDTH = 0) extends axi_rw_seq_item;
         resp = new[p.get_beat_count()];
         
         foreach(resp[i]) begin
-            foreach(resp[i][j]) begin
+            for (int j=0; j<AXI_RESP_WIDTH; j++)
                 resp[i][j] = p.unpack_user_bit(i - RESP_ARG_OFFSET);
-            end
         end
     endfunction
     

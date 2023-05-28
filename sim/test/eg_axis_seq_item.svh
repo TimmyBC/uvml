@@ -29,4 +29,3 @@ class eg_axis_seq_item extends axis_sequence_item;
     endfunction
     
 endclass : eg_axis_seq_item 
-

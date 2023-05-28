@@ -15,6 +15,7 @@ class axis_packer#(parameter DATA_WIDTH, parameter USER_WIDTH = 2) extends uvml_
         b.data = {1'b0, {USER_WIDTH{1'bx}}, {KEEP_WIDTH{1'b0}}, {DATA_WIDTH{1'bx}}};
         beats.push_back(b);
         ptr = 0;
+        usr_ptr = 0;
     endfunction
     
     virtual function void reset_unpack();
@@ -33,6 +34,7 @@ class axis_packer#(parameter DATA_WIDTH, parameter USER_WIDTH = 2) extends uvml_
         end
         beats = {};
         ptr = 0;
+        usr_ptr = 0;
     endfunction
     
     virtual function void pack_bit(logic [0:0] b);
@@ -82,8 +84,15 @@ class axis_packer#(parameter DATA_WIDTH, parameter USER_WIDTH = 2) extends uvml_
             usr_ptr = 0;
             prv_usr_beat = arg;
         end
-        assert (usr_ptr < USER_WIDTH) else `uvml_fatal($sformatf("User packing at beat %0d overflows. USER_WIDTH = %0d", arg, USER_WIDTH));
-        
+        assert (usr_ptr < USER_WIDTH) else begin
+            if (arg == -1) begin
+                `uvml_fatal($sformatf("User packing at last beat (%0d) overflows. USER_WIDTH = %0d", beats.size()-1, USER_WIDTH));
+            end
+            else begin
+                `uvml_fatal($sformatf("User packing at beat %0d overflows. USER_WIDTH = %0d", arg, USER_WIDTH));
+            end
+        end
+
         if (arg < 0)
             beats[$].data[DATA_WIDTH + KEEP_WIDTH + usr_ptr] = b;
         else

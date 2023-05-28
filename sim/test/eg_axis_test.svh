@@ -3,7 +3,7 @@ class eg_axis_test extends uvml_test;
     uvml_api_sequence#(eg_axis_seq_item) snd_seq = null;
     uvml_api_sequence#(eg_axis_seq_item) rcv_seq = null;
     
-    int count = 4;
+    int count = 1000;
     
     function new(string name, uvml_env env);
         super.new(name, env);        

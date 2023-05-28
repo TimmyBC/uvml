@@ -9,7 +9,7 @@ package eg_test_pkg;
 
     `include "eg_axis_seq_item.svh"
     `include "eg_hs_seq_item.svh"
-    
+    `include "fifo_seq_item.svh"
     `include "eg_axilite_slave_seq.svh"
     
     `include "eg_hs_seq.svh"
@@ -18,5 +18,7 @@ package eg_test_pkg;
     `include "eg_axis_test.svh"
     `include "eg_axilite_test.svh"
     `include "eg_axi_test.svh"
-
+    `include "fifo_test.svh"
+    `include "fifo_hdr_test.svh"
+    `include "fifo_drp_test.svh"
 endpackage

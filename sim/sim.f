@@ -4,3 +4,5 @@
 "top/tb_axis.sv"
 "top/tb_axilite.sv"
 "top/tb_axi.sv"
+"top/tb_fifo.sv"
+"top/tb_pkt_fifo.sv"

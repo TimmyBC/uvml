@@ -27,7 +27,7 @@ class uvml_sequencer extends uvml_object;
                 retry--;
             end
             while(retry > 0);
-            `uvml_fatal($sformatf("Receive timed out after %0d ns", ns));
+            `uvml_fatal($sformatf("Receive timed out after %0d ns. (Agent must not be in SLAVE_AUTO_AGENT mode)", ns));
         end
         else begin
             rsp_q.get(rsp);

@@ -5,6 +5,8 @@ package uvml_pkg;
     typedef enum {COLOR_BOLD = 1, COLOR_FAINT = 2, COLOR_BLINK = 5} uvml_color_style;
     typedef enum {MONITOR_ENABLE, MONITOR_DISABLE} uvml_monitor_enable;
     typedef enum {SEQ_ITM_COPY, SEQ_ITM_CMP, SEQ_ITM_PRNT, SEQ_ITM_PACK, SEQ_ITM_UNPK} uvml_seq_itm_ops;
+    typedef enum {HS_ANY, HS_DUT_FIRST, HS_TB_FIRST} uvml_hs_precedence;
+
     localparam SEQUENCER_WAIT_FOREVER = -1;
     
     `include "uvml_macros.svh"

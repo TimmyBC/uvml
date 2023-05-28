@@ -10,7 +10,9 @@ class uvml_stream_agent#(type T_SEQ_ITEM = uvml_stream_seq_item, parameter DATA_
         env.add_agent(this);
         
         hs_agent = new(env, {name, ".hs_agent"}, stream_if_api, agent_type, drive, LOG_DISABLE);
-                
+
+        drive.agent_name = get_full_name();
+
         driver = new("driver", this);
         driver.agent_type = agent_type;
         driver.drive = drive;

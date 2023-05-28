@@ -63,7 +63,7 @@ module tb_axis;
         
         env = new("env");
         master_agent = new(env, "master_agent", m_axis_if_api, MASTER_AGENT, axis_drive_random#(DATA_WIDTH, USER_WIDTH)::create(), COLOR_CYAN);
-        slave_agent = new(env, "slave_agent", s_axis_if_api, SLAVE_AUTO_AGENT, axis_drive_random#(DATA_WIDTH, USER_WIDTH)::create(), COLOR_MAGENTA);
+        slave_agent = new(env, "slave_agent", s_axis_if_api, SLAVE_AUTO_AGENT, axis_drive_const_pkt#(DATA_WIDTH, USER_WIDTH)::create(HS_ANY), COLOR_MAGENTA);
         
         chk = new("checker", env, 1);        
         chk.finish_on_mismatch = 0;
@@ -72,9 +72,9 @@ module tb_axis;
         env.get_monitor_port("master_agent").connect(chk.ex_port_predict);
         env.get_monitor_port("slave_agent").connect(chk.ex_port_actual);
         
-        test = new("stream_test", env);
-        test.snd_seq = new("stream_snd_api_seq", env.get_sequencer("master_agent"));
-        test.rcv_seq = new("stream_rcv_api_seq", env.get_sequencer("slave_agent"));
+        test = new("axis_test", env);
+        test.snd_seq = new("axis_snd_api_seq", env.get_sequencer("master_agent"));
+        test.rcv_seq = new("axis_rcv_api_seq", env.get_sequencer("slave_agent"));
         test.run();
         
         uvml_test::finish();

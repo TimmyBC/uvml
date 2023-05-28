@@ -118,9 +118,16 @@
     log.data = $sformatf("%s  [ %s  %0d'h %z ]", log.data, `"v`", $bits(v), v);\
 `endif
 
-`define uvml_print_array(v)\
-    log.data = (v.size() > 0) ? $sformatf("%s [ %s %0d'h{%0d} %0p ]", log.data, `"v`", $bits(v[0]), v.size(), v) : $sformatf("%s [ %s {} ]", log.data, `"v`");
+// `define uvml_print_array(v)\
+//     log.data = (v.size() > 0) ? $sformatf("%s [ %s %0d'h{%0d} %0p ]", log.data, `"v`", $bits(v[0]), v.size(), v) : $sformatf("%s [ %s {} ]", log.data, `"v`");
 
+`define uvml_print_array(v)\
+    if (v.size() > 0) begin\
+        $swriteh(log.data, "%s [ %s %0d'h{%0d} %0p ]", log.data, `"v`", $bits(v[0]), v.size(), v);\
+    end\
+    else begin\
+        $swriteh(log.data, "%s [ %s {} ]", log.data, `"v`");\
+    end
 
 `define uvml_print_enum(v)\
     log.data = $sformatf("%s  [ %s  %s ]", log.data, `"v`", v.name());

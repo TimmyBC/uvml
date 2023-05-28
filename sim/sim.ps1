@@ -1,5 +1,7 @@
+Testbench="tb_pkt_fifo"
+# Testbench="tb_fifo"
 # $Testbench="tb_axi"
- $Testbench="tb_axilite"
+# $Testbench="tb_axilite"
 # $Testbench="tb_axis"
 # $Testbench="tb_stream"
 # $Testbench="tb_hs"

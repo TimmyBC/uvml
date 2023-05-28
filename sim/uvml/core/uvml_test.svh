@@ -20,6 +20,7 @@ class uvml_test extends uvml_component;
             end
             begin
                 pid = process::self();
+                `uvml_info_color($sformatf("*** TEST: %s ***", get_name()), COLOR_BLUE, COLOR_BOLD);
                 run_phase();
                 #300;
             end
